@@ -1,0 +1,53 @@
+---
+const { heroImage } = Astro.props;
+---
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuButton = document.getElementById("menu-button");
+    const menuDropdown = document.getElementById("menu-dropdown");
+
+    menuButton.addEventListener("click", function () {
+      menuDropdown.classList.toggle("hidden");
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", function (event) {
+      if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
+        menuDropdown.classList.add("hidden");
+      }
+    });
+  });
+</script>
+
+<header class="relative">
+  <!-- Hero Image -->
+  <img src={heroImage} alt="Hero Image" class="w-full h-64 object-cover" />
+  
+  <!-- Navbar Container -->
+  <div class="absolute top-0 left-0 right-0 bg-black bg-opacity-60 p-4 flex justify-between items-center">
+    
+    <!-- Blog Title -->
+    <a href="/" class="text-2xl font-bold text-white">Astro Blog</a>
+
+    <!-- Desktop Navigation (Hidden on Mobile) -->
+    <nav class="hidden md:flex space-x-4 text-white">
+      <a href="/tech-ai" class="text-white hover:underline">Tech/AI</a>
+      <a href="/car" class="text-white hover:underline">Car</a>
+      <a href="/fishing" class="text-white hover:underline">Fishing</a>
+    </nav>
+
+    <!-- Mobile Menu Button (Perfect Hamburger Icon) -->
+    <button id="menu-button" class="md:hidden flex flex-col items-center justify-center w-10 h-10 space-y-1.5">
+      <span class="block w-8 h-1 bg-white"></span>
+      <span class="block w-8 h-1 bg-white"></span>
+      <span class="block w-8 h-1 bg-white"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Dropdown Menu (Hidden by Default) -->
+  <nav id="menu-dropdown" class="absolute top-16 left-0 w-full bg-black bg-opacity-90 text-white flex flex-col p-4 md:hidden hidden">
+    <a href="/tech-ai" class="py-2 border-b border-gray-700">Tech/AI</a>
+    <a href="/car" class="py-2 border-b border-gray-700">Car</a>
+    <a href="/fishing" class="py-2">Fishing</a>
+  </nav>
+</header>

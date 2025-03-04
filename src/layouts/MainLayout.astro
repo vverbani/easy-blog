@@ -1,0 +1,22 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Sidebar from '../components/Sidebar.astro';
+import '../styles/global.css';
+---
+<Header heroImage="/images/home-hero.jpg" />
+
+<!-- Main Container with Padding -->
+<main class="container mx-auto my-8 flex flex-col md:flex-row px-4 md:px-8">
+  <!-- Main Content (80%) with Padding -->
+  <div class="w-full md:w-4/5 p-4 md:p-6">
+    <slot />
+  </div>
+
+  <!-- Sidebar (20%) with Padding -->
+  <div class="w-full md:w-1/5 bg-gray-100 p-4 md:p-6">
+    <Sidebar />
+  </div>
+</main>
+
+<Footer />

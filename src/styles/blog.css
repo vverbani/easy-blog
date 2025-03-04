@@ -1,0 +1,33 @@
+/* Blog post page (20/60/20 layout) specific styles */
+.blog-layout {
+  display: flex;
+}
+
+.blog-left-sidebar {
+  width: 20%;
+}
+
+.blog-content {
+  width: 60%;
+}
+
+.blog-right-sidebar {
+  width: 20%;
+}
+
+/* Default content library links */
+.content-library a {
+  display: block;
+  padding: 8px 12px;
+  color: black;
+  text-decoration: none;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Highlight active section */
+.content-library a.active-section {
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+}

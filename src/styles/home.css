@@ -1,0 +1,18 @@
+/* Homepage (80/20 layout) specific styles */
+.home-layout {
+    display: flex;
+  }
+  
+  .home-content {
+    width: 80%;
+  }
+  
+  .home-sidebar {
+    width: 20%;
+  }
+  
+  /* Hero banner adjustments if needed */
+  .hero-banner {
+    position: relative;
+  }
+  

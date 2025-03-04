@@ -1,0 +1,13 @@
+/* Category page (80/20 layout) specific styles */
+.category-layout {
+    display: flex;
+  }
+  
+  .category-content {
+    width: 80%;
+  }
+  
+  .category-sidebar {
+    width: 20%;
+  }
+  

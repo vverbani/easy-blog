@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/MainLayout.astro';
+---
+
+<Layout>
+  <h1 class="text-4xl font-bold text-center my-6">Welcome to Our Blog</h1>
+
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Tech & AI -->
+    <a href="/tech-ai" class="block bg-gray-100 rounded-lg p-6 hover:shadow-lg">
+      <h2 class="text-2xl font-semibold mt-4">Tech & AI</h2>
+      <p class="text-gray-600">Explore the latest advancements in AI and technology shaping the future.</p>
+    </a>
+
+    <!-- Cars -->
+    <a href="/cars" class="block bg-gray-100 rounded-lg p-6 hover:shadow-lg">
+      <h2 class="text-2xl font-semibold mt-4">Cars</h2>
+      <p class="text-gray-600">Get insights into electric cars, autonomous vehicles, and the future of transportation.</p>
+    </a>
+
+    <!-- Fishing -->
+    <a href="/fishing" class="block bg-gray-100 rounded-lg p-6 hover:shadow-lg">
+      <h2 class="text-2xl font-semibold mt-4">Fishing</h2>
+      <p class="text-gray-600">Discover the best fishing spots, techniques, and gear recommendations.</p>
+    </a>
+  </section>
+</Layout>

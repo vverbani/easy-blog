@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Styles for maximum reader engagement */
+body {
+  @apply font-sans text-gray-800 bg-white;
+  /* Using "Inter" font is popular for web readability – include it via Google Fonts in your head if desired */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold;
+}
+
+a {
+  @apply text-blue-600 hover:underline;
+}
+
+/* Set a base line-height and spacing for readability */
+body, p, li {
+  line-height: 1.6;
+  font-size: 1rem;
+}
