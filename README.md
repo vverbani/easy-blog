@@ -10,9 +10,13 @@ Astro Blog is an **out-of-the-box (OOTB)**, easy-to-use, and lightweight bloggin
 
 ### **Includes:**
 ✔ **Homepage** – Showcase your blog content
+
 ✔ **Category Pages** – Organize posts by topics
+
 ✔ **Blog Post Pages** – Readable markdown-based posts
+
 ✔ **Mobile-Friendly** – Responsive layout
+
 
 ---
 
