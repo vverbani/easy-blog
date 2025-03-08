@@ -1,14 +1,12 @@
+// astro.config.mjs
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-import remarkSlug from 'remark-slug';
-import remarkAutolinkHeadings from 'remark-autolink-headings';
+import rehypeSlug from 'rehype-slug';
 
 export default defineConfig({
+  output: "server",  // Enable runtime endpoints
   integrations: [tailwind()],
   markdown: {
-    remarkPlugins: [
-      remarkSlug,
-      [remarkAutolinkHeadings, { behavior: 'wrap' }]
-    ]
-  },
+    rehypePlugins: [rehypeSlug]
+  }
 });

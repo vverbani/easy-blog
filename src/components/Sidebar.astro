@@ -1,4 +1,7 @@
 <!-- src/components/Sidebar.astro -->
+---
+import NewsletterSignup from './NewsletterSignup.astro';
+---
 <aside class="bg-gray-100 p-4 md:p-6">
   <div class="mb-4">
     <h3 class="text-lg font-bold mb-2">About this page</h3>
@@ -14,11 +17,6 @@
   </div>
   <div>
     <h3 class="text-lg font-bold mb-2">Subscribe</h3>
-    <form action="#" method="POST">
-      <input type="email" placeholder="Your email" class="p-2 text-gray-800 w-full" />
-      <button type="submit" class="mt-2 p-2 text-white bg-blue-600 hover:bg-blue-700 w-full">
-        Subscribe
-      </button>
-    </form>
+    <NewsletterSignup />
   </div>
 </aside>
