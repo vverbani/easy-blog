@@ -40,6 +40,8 @@ cd <project-name>
 2️⃣ **Run the Blog with Docker Compose:**
 ```bash
 docker-compose up --build
+
+** For mailing newsletter to work - you must have a mailchimp account and have your .env filled out with the API key and Audience ID.
 ```
 
 3️⃣ **Access the Blog:**
