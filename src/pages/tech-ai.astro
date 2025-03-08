@@ -1,8 +1,17 @@
 ---
 import Layout from '../layouts/MainLayout.astro';
 
-// Get all blog files inside `/src/pages/tech-ai/`
-const blogs = await Astro.glob('../pages/tech-ai/*.astro');
+// Get all `.md` and `.astro` blog files inside `src/pages/tech-ai/`
+const blogPaths = await Astro.glob('./tech-ai/*.{md,astro}');
+
+// Manually extract frontmatter from each file
+const blogs = blogPaths.map((blog) => ({
+  title: blog.frontmatter?.title || "Untitled Post",
+  date: blog.frontmatter?.date || "Unknown Date",
+  image: blog.frontmatter?.image || "/images/default.jpg",
+  excerpt: blog.frontmatter?.excerpt || "No description available.",
+  url: `/tech-ai/${blog.file.split('/').pop().replace(/\.(md|astro)$/, '')}`
+}));
 ---
 
 <Layout>
@@ -11,12 +20,12 @@ const blogs = await Astro.glob('../pages/tech-ai/*.astro');
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {blogs.map((blog) => (
       <a href={blog.url} class="flex items-center bg-gray-100 p-4 rounded-lg hover:shadow-lg">
-        <img src={blog.frontmatter.image} alt={blog.frontmatter.title} class="w-32 h-32 object-cover rounded-lg mr-4">
+        <img src={blog.image} alt={blog.title} class="w-32 h-32 object-cover rounded-lg mr-4">
 
         <div>
-          <h2 class="text-xl font-semibold">{blog.frontmatter.title}</h2>
-          <p class="text-sm text-gray-500">{blog.frontmatter.date}</p>
-          <p class="text-sm text-gray-700 mt-2">{blog.frontmatter.excerpt}</p>
+          <h2 class="text-xl font-semibold">{blog.title}</h2>
+          <p class="text-sm text-gray-500">{blog.date}</p>
+          <p class="text-sm text-gray-700 mt-2">{blog.excerpt}</p>
           <span class="text-blue-500 font-bold mt-2 block">READ MORE</span>
         </div>
       </a>

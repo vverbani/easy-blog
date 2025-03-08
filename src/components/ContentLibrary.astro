@@ -1,56 +1,68 @@
-<nav class="content-library">
+<!-- src/components/ContentLibrary.astro -->
+<nav class="content-library md:sticky md:top-0">
   <h3 class="text-xl font-bold mb-2">Contents</h3>
-  <ul id="toc-list"></ul> <!-- JavaScript will populate this -->
+  <ul id="toc-list"></ul>
 </nav>
 
-<!-- JavaScript for Dynamic Table of Contents -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
+<script is:inline>
+  // Use the load event to ensure that all content (including Markdown) is rendered
+  window.addEventListener("load", function () {
     const tocList = document.getElementById("toc-list");
-    const sections = document.querySelectorAll("#blog-content section");
-
-    if (!tocList || sections.length === 0) return;
-
-    tocList.innerHTML = ""; // Clear existing ToC content
-
-    sections.forEach((section, index) => {
-      const heading = section.querySelector("h2");
-      if (heading) {
-        const id = `section-${index + 1}`;
-        section.id = id; // Assign unique ID if not already set
-
-        const link = document.createElement("a");
-        link.href = `#${id}`;
-        link.textContent = heading.textContent;
-        link.className = "block py-2 px-4 hover:bg-gray-200";
-
-        const listItem = document.createElement("li");
-        listItem.appendChild(link);
-        tocList.appendChild(listItem);
-      }
-    });
-
-    // Scroll highlighting logic
-    const navLinks = document.querySelectorAll(".content-library a");
-
-    function highlightSection() {
-      let currentSectionIndex = -1;
-      let scrollPosition = window.scrollY + 150;
-
-      sections.forEach((section, index) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= 150 && rect.bottom >= 150) {
-          currentSectionIndex = index;
-        }
-      });
-
-      if (currentSectionIndex !== -1) {
-        navLinks.forEach(link => link.classList.remove("active-section"));
-        navLinks[currentSectionIndex].classList.add("active-section");
-      }
+    // Query for all headings (h1, h2, h3) inside the blog content container
+    const headings = document.querySelectorAll("#blog-content h1, #blog-content h2, #blog-content h3");
+    if (!tocList || headings.length === 0) {
+      console.log("No headings found in #blog-content for TOC");
+      return;
     }
 
+    // Clear any existing TOC content
+    tocList.innerHTML = "";
+
+    // Build the TOC links from the headings
+    headings.forEach((heading, index) => {
+      let id = heading.id;
+      if (!id) {
+        id = `section-${index + 1}`;
+        heading.id = id;
+      }
+      const link = document.createElement("a");
+      link.href = `#${id}`;
+      link.textContent = heading.textContent;
+      link.className = "block py-2 px-4 hover:bg-gray-200";
+
+      const listItem = document.createElement("li");
+      listItem.appendChild(link);
+      tocList.appendChild(listItem);
+    });
+
+    // Get all generated TOC links
+    const navLinks = document.querySelectorAll(".content-library a");
+
+    // Function to highlight the heading closest to the top of the viewport
+    function highlightSection() {
+      let currentIndex = 0;
+      let minDistance = Infinity;
+      headings.forEach((heading, index) => {
+        const rect = heading.getBoundingClientRect();
+        const distance = Math.abs(rect.top);
+        // Only consider headings that are visible (or nearly so)
+        if (rect.top <= window.innerHeight && distance < minDistance) {
+          minDistance = distance;
+          currentIndex = index;
+        }
+      });
+      
+      // Remove active class from all links
+      navLinks.forEach(link => link.classList.remove("active-section"));
+      // Add active class to the link corresponding to the closest heading
+      if (navLinks[currentIndex]) {
+        navLinks[currentIndex].classList.add("active-section");
+      }
+    }
+    
+    // Listen for scroll events to update highlighting
     window.addEventListener("scroll", highlightSection);
-    highlightSection(); // Run on page load
+    // Run on initial load
+    highlightSection();
   });
 </script>

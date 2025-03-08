@@ -1,79 +1,42 @@
+<!-- src/layouts/BlogPostLayout.astro -->
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Sidebar from '../components/Sidebar.astro';
 import ContentLibrary from '../components/ContentLibrary.astro';
+const { frontmatter } = Astro.props;
 ---
+<Header heroImage={frontmatter.image ?? "/images/default.jpg"} />
 
-<Header heroImage="/images/blog-hero.jpg" />
-
-<main class="container mx-auto my-8 flex flex-col md:flex-row px-4 md:px-8">
-  <!-- Content Library (Left Sidebar) -->
-  <div class="w-full md:w-1/5 p-4 md:p-6">
+<main class="container mx-auto my-8 flex flex-col md:flex-row items-start px-4 md:px-8">
+  <!-- Left Sidebar: Content Library -->
+  <div class="w-full md:w-1/5 p-4 md:p-6 md:sticky md:top-0">
     <ContentLibrary />
   </div>
 
   <!-- Main Blog Content -->
-  <div class="w-full md:w-3/5 p-4 md:p-6" id="blog-content">
-    <slot />
+  <div class="w-full md:w-3/5 p-4 md:p-6">
+    <h1 class="text-3xl font-bold mb-4">{frontmatter.title ?? "Untitled Blog"}</h1>
+    <p class="text-sm text-gray-500">
+      {frontmatter.updated
+        ? `Updated: ${frontmatter.updated}`
+        : `Created: ${frontmatter.date ?? "Unknown Date"}`}
+    </p>
+    <img
+      src={frontmatter.image ?? "/images/default.jpg"}
+      alt={frontmatter.title}
+      class="w-full rounded-lg my-4"
+    />
+    <!-- Markdown content container -->
+    <div id="blog-content" class="prose prose-lg prose-blue max-w-none">
+      <slot />
+    </div>
   </div>
 
-  <!-- Sidebar -->
-  <div class="w-full md:w-1/5 bg-gray-100 p-4 md:p-6">
+  <!-- Right Sidebar: Sidebar with its own padding -->
+  <div class="w-full md:w-1/5 md:sticky md:top-0">
     <Sidebar />
   </div>
 </main>
 
 <Footer />
-
-<!-- JavaScript to Auto-Generate ToC -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const contentLibrary = document.querySelector(".content-library ul");
-    const sections = document.querySelectorAll("#blog-content section");
-    
-    if (!contentLibrary || sections.length === 0) return;
-
-    contentLibrary.innerHTML = ""; // Clear existing content
-
-    sections.forEach((section, index) => {
-      const heading = section.querySelector("h2");
-      if (heading) {
-        const id = `section-${index + 1}`;
-        section.id = id; // Assign unique ID if not present
-
-        const link = document.createElement("a");
-        link.href = `#${id}`;
-        link.textContent = heading.textContent;
-        link.className = "block py-2 px-4 hover:bg-gray-200";
-
-        const listItem = document.createElement("li");
-        listItem.appendChild(link);
-        contentLibrary.appendChild(listItem);
-      }
-    });
-
-    // Scroll highlighting logic
-    const navLinks = document.querySelectorAll(".content-library a");
-
-    function highlightSection() {
-      let currentSectionIndex = -1;
-      let scrollPosition = window.scrollY + 150;
-
-      sections.forEach((section, index) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= 150 && rect.bottom >= 150) {
-          currentSectionIndex = index;
-        }
-      });
-
-      if (currentSectionIndex !== -1) {
-        navLinks.forEach(link => link.classList.remove("active-section"));
-        navLinks[currentSectionIndex].classList.add("active-section");
-      }
-    }
-
-    window.addEventListener("scroll", highlightSection);
-    highlightSection(); // Run on page load
-  });
-</script>

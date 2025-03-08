@@ -21,3 +21,8 @@ body, p, li {
   line-height: 1.6;
   font-size: 1rem;
 }
+
+.active-section {
+  background-color: #eedbfe; /* light blue background */
+  font-weight: bold;
+}
