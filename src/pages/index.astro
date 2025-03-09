@@ -9,6 +9,12 @@ const recentBlogs = blogs
   .filter((blog) => blog.frontmatter && blog.frontmatter.date)
   .sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date))
   .slice(0, 6);
+
+// Helper function to truncate text to a given length
+function truncate(text, maxLength = 75) {
+  if (!text) return "";
+  return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+}
 ---
 <MainLayout>
   <!-- Intro Section -->
@@ -57,7 +63,7 @@ const recentBlogs = blogs
           <div>
             <h3 class="text-xl font-semibold">{blog.frontmatter.title}</h3>
             <p class="text-sm text-gray-500">{blog.frontmatter.date}</p>
-            <p class="text-sm text-gray-700 mt-2">{blog.frontmatter.excerpt}</p>
+            <p class="text-sm text-gray-700 mt-2">{truncate(blog.frontmatter.excerpt)}</p>
             <span class="text-blue-500 font-bold mt-2 block">READ MORE</span>
           </div>
         </a>

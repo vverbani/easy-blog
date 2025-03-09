@@ -19,6 +19,12 @@ const blogs = blogPaths.map((blog) => ({
   excerpt: blog.frontmatter?.excerpt || "No description available.",
   url: `/tech-ai/${blog.file.split('/').pop().replace(/\.(md|astro)$/, '')}`
 }));
+
+// Helper function to truncate text to a given length
+function truncate(text, maxLength = 75) {
+  if (!text) return "";
+  return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+}
 ---
 <Layout>
   <h1 class="text-3xl font-bold mb-6">Tech & AI Blogs</h1>
@@ -29,7 +35,7 @@ const blogs = blogPaths.map((blog) => ({
         <div>
           <h2 class="text-xl font-semibold">{blog.title}</h2>
           <p class="text-sm text-gray-500">{blog.date}</p>
-          <p class="text-sm text-gray-700 mt-2">{blog.excerpt}</p>
+          <p class="text-sm text-gray-700 mt-2">{truncate(blog.excerpt)}</p>
           <span class="text-blue-500 font-bold mt-2 block">READ MORE</span>
         </div>
       </a>
