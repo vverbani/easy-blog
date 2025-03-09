@@ -7,13 +7,14 @@ import '../styles/global.css';
 // Default frontmatter to an empty object if it's undefined.
 const { frontmatter = {} } = Astro.props;
 const includeMeta = frontmatter.customMeta === true;
-const pageTitle = "This is the Easy Blog "
-const metaDescription = "This is the Easy Blog Meta Description"
+const pageTitle = "This is the Easy Blog ";
+const metaDescription = "This is the Easy Blog Meta Description";
 ---
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
     <title>{pageTitle}</title>
     <meta name="description" content={metaDescription} />
   </head>
