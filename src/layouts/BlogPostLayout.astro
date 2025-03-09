@@ -1,42 +1,58 @@
-<!-- src/layouts/BlogPostLayout.astro -->
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Sidebar from '../components/Sidebar.astro';
 import ContentLibrary from '../components/ContentLibrary.astro';
-const { frontmatter } = Astro.props;
+import '../styles/global.css';
+
+// Default frontmatter to an empty object if not provided.
+const { frontmatter = {} } = Astro.props;
+// Include meta tags by default, unless customMeta is explicitly false.
+const includeMeta = frontmatter.customMeta !== false;
+const pageTitle = frontmatter.title ? `${frontmatter.title} | Astro Blog` : "Astro Blog";
+const metaDescription = frontmatter.description || frontmatter.excerpt || "Default blog post description.";
 ---
-<Header heroImage={frontmatter.image ?? "/images/default.jpg"} />
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {includeMeta ? <title>{pageTitle}</title> : null}
+    {includeMeta ? <meta name="description" content={metaDescription} /> : null}
+  </head>
+  <body>
+    <Header heroImage={frontmatter.image ?? "/images/default.jpg"} />
 
-<main class="container mx-auto my-8 flex flex-col md:flex-row items-start px-4 md:px-8">
-  <!-- Left Sidebar: Content Library -->
-  <div class="w-full md:w-1/5 p-4 md:p-6 md:sticky md:top-0">
-    <ContentLibrary />
-  </div>
+    <main class="container mx-auto my-8 flex flex-col md:flex-row items-start px-4 md:px-8">
+      <!-- Left Sidebar: Content Library -->
+      <div class="w-full md:w-1/5 p-4 md:p-6 md:sticky md:top-0">
+        <ContentLibrary />
+      </div>
 
-  <!-- Main Blog Content -->
-  <div class="w-full md:w-3/5 p-4 md:p-6">
-    <h1 class="text-3xl font-bold mb-4">{frontmatter.title ?? "Untitled Blog"}</h1>
-    <p class="text-sm text-gray-500">
-      {frontmatter.updated
-        ? `Updated: ${frontmatter.updated}`
-        : `Created: ${frontmatter.date ?? "Unknown Date"}`}
-    </p>
-    <img
-      src={frontmatter.image ?? "/images/default.jpg"}
-      alt={frontmatter.title}
-      class="w-full rounded-lg my-4"
-    />
-    <!-- Markdown content container -->
-    <div id="blog-content" class="prose prose-lg prose-blue max-w-none">
-      <slot />
-    </div>
-  </div>
+      <!-- Main Blog Content -->
+      <div class="w-full md:w-3/5 p-4 md:p-6">
+        <h1 class="text-3xl font-bold mb-4">{frontmatter.title ?? "Untitled Blog"}</h1>
+        <p class="text-sm text-gray-500">
+          {frontmatter.updated
+            ? `Updated: ${frontmatter.updated}`
+            : `Created: ${frontmatter.date ?? "Unknown Date"}`}
+        </p>
+        <img
+          src={frontmatter.image ?? "/images/default.jpg"}
+          alt={frontmatter.title}
+          class="w-full rounded-lg my-4"
+        />
+        <!-- Markdown content container -->
+        <div id="blog-content" class="prose prose-lg prose-blue max-w-none">
+          <slot />
+        </div>
+      </div>
 
-  <!-- Right Sidebar: Sidebar with its own padding -->
-  <div class="w-full md:w-1/5 md:sticky md:top-0">
-    <Sidebar />
-  </div>
-</main>
+      <!-- Right Sidebar: Sidebar -->
+      <div class="w-full md:w-1/5 md:sticky md:top-0">
+        <Sidebar />
+      </div>
+    </main>
 
-<Footer />
+    <Footer />
+  </body>
+</html>

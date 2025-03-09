@@ -2,34 +2,37 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Sidebar from '../components/Sidebar.astro';
-import NewsletterSuccess from '../components/NewsletterSuccess.astro';
-import NewsletterError from '../components/NewsletterError.astro';
 import '../styles/global.css';
 
-// Read query parameters from the current request URL (server-side)
-let newsletterStatus = null;
-let newsletterMessage = null;
-if (Astro.request) {
-  const url = new URL(Astro.request.url);
-  newsletterStatus = url.searchParams.get("newsletterStatus");
-  newsletterMessage = url.searchParams.get("newsletterMessage");
-}
+// Default frontmatter to an empty object if it's undefined.
+const { frontmatter = {} } = Astro.props;
+const includeMeta = frontmatter.customMeta === true;
+const pageTitle = "This is the Easy Blog "
+const metaDescription = "This is the Easy Blog Meta Description"
 ---
-<Header heroImage="/images/home-hero.jpg" />
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={metaDescription} />
+  </head>
+  <body>
+    <Header heroImage="/images/home-hero.jpg" />
 
-<!-- Main Container with Padding -->
-<main class="container mx-auto my-8 flex flex-col md:flex-row px-4 md:px-8">
-  <!-- Main Content (80%) with Padding -->
-  <div class="w-full md:w-4/5 p-4 md:p-6">
-    {newsletterStatus === 'success' && <NewsletterSuccess />}
-    {newsletterStatus === 'error' && <NewsletterError message={newsletterMessage} />}
-    <slot />
-  </div>
+    <!-- Main Container with Padding -->
+    <main class="container mx-auto my-8 flex flex-col md:flex-row items-start px-4 md:px-8">
+      <!-- Main Content (80%) with Padding -->
+      <div class="w-full md:w-4/5 p-4 md:p-6">
+        <slot />
+      </div>
 
-  <!-- Sidebar (20%) with Padding -->
-  <div class="w-full md:w-1/5 bg-gray-100 p-4 md:p-6">
-    <Sidebar />
-  </div>
-</main>
+      <!-- Sidebar (20%) with Padding -->
+      <div class="w-full md:w-1/5 bg-gray-100 p-4 md:p-6">
+        <Sidebar />
+      </div>
+    </main>
 
-<Footer />
+    <Footer />
+  </body>
+</html>

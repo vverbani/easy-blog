@@ -28,7 +28,8 @@
       const link = document.createElement("a");
       link.href = `#${id}`;
       link.textContent = heading.textContent;
-      link.className = "block py-2 px-4 hover:bg-gray-200";
+      // Set the link text to black and use a hover background
+      link.className = "block py-2 px-4 text-black hover:bg-gray-200";
 
       const listItem = document.createElement("li");
       listItem.appendChild(link);
@@ -51,7 +52,7 @@
           currentIndex = index;
         }
       });
-      
+
       // Remove active class from all links
       navLinks.forEach(link => link.classList.remove("active-section"));
       // Add active class to the link corresponding to the closest heading
@@ -59,7 +60,7 @@
         navLinks[currentIndex].classList.add("active-section");
       }
     }
-    
+
     // Listen for scroll events to update highlighting
     window.addEventListener("scroll", highlightSection);
     // Run on initial load
