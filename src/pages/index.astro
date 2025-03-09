@@ -1,10 +1,25 @@
 ---
-import Layout from '../layouts/MainLayout.astro';
+import MainLayout from '../layouts/MainLayout.astro';
+
+// Retrieve all blog posts (Markdown or Astro) from the category folders.
+const blogs = await Astro.glob('./{tech-ai,car,fishing}/*.{md,astro}');
+
+// Filter out posts that don't have a date, then sort by date (most recent first).
+const recentBlogs = blogs
+  .filter((blog) => blog.frontmatter && blog.frontmatter.date)
+  .sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date))
+  .slice(0, 6);
 ---
+<MainLayout>
+  <!-- Intro Section -->
+  <section class="intro my-8">
+    <h1 class="text-4xl font-bold mb-4">Welcome to Easy Blog</h1>
+    <p class="text-lg">
+      Discover expert insights and in-depth articles on technology, cars, fishing, and more. Stay ahead of the curve with our carefully curated content and join our community of enthusiastic readers.
+    </p>
+  </section>
 
-<Layout>
-  <h1 class="text-4xl font-bold text-center my-6">Welcome to Our Blog</h1>
-
+  <!-- Categories Section -->
   <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <!-- Tech & AI -->
     <a href="/tech-ai" class="block bg-gray-100 rounded-lg p-6 hover:shadow-lg">
@@ -24,4 +39,29 @@ import Layout from '../layouts/MainLayout.astro';
       <p class="text-gray-600">Discover the best fishing spots, techniques, and gear recommendations.</p>
     </a>
   </section>
-</Layout>
+
+  <!-- Recent Articles Section -->
+  <section class="recent-articles my-8">
+    <h2 class="text-3xl font-bold mb-4">Latest Articles</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {recentBlogs.map((blog) => (
+        <a
+          href={blog.url}
+          class="flex items-center bg-gray-100 p-4 rounded-lg hover:shadow-lg"
+        >
+          <img
+            src={blog.frontmatter.image || "/images/default.jpg"}
+            alt={blog.frontmatter.title}
+            class="w-32 h-32 object-cover rounded-lg mr-4"
+          />
+          <div>
+            <h3 class="text-xl font-semibold">{blog.frontmatter.title}</h3>
+            <p class="text-sm text-gray-500">{blog.frontmatter.date}</p>
+            <p class="text-sm text-gray-700 mt-2">{blog.frontmatter.excerpt}</p>
+            <span class="text-blue-500 font-bold mt-2 block">READ MORE</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</MainLayout>
