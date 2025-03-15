@@ -1,5 +1,6 @@
 ---
-import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Sidebar from '../components/Sidebar.astro';
 import '../styles/global.css';
@@ -19,7 +20,15 @@ const metaDescription = "This is the Easy Blog Meta Description";
     <meta name="description" content={metaDescription} />
   </head>
   <body>
-    <Header heroImage="/images/home-hero.jpg" />
+    <!-- Hero + Navbar container -->
+    <div class="relative">
+      {/* Render the hero image */}
+      <Hero heroImage="/images/home-hero.jpg" />
+      {/* Overlay the navbar on top of the hero image */}
+      <div class="absolute top-0 left-0 right-0">
+        <Navbar />
+      </div>
+    </div>
 
     <!-- Main Container with Padding -->
     <main class="container mx-auto my-8 flex flex-col md:flex-row items-start px-4 md:px-8">

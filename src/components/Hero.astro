@@ -1,0 +1,8 @@
+---
+const { heroImage } = Astro.props;
+---
+{heroImage && (
+  <div>
+    <img src={heroImage} alt="Hero Image" class="w-full h-64 object-cover" />
+  </div>
+)}

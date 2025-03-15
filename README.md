@@ -83,7 +83,7 @@ my-astro-blog/
 ## 🔧  Optimize SEO & Meta Tags**
 
 1) Fill out `sitemap` and submit to [Google](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
-2) Fill out `robots.txt` - by default you want to avoid category pages (`noindex`) - they're strictly for the user experience. Why [Robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro
+2) Fill out `robots.txt` - by default you want to avoid category pages (`noindex`) - they're strictly for the user experience. Why [Robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro)
 3) Ensure Home page has properly defined Meta information
 4) Ensure each article has properly defined Meta information
 5) Ensure images are compressed (less is more) or via CDN with proper alt tag. View image [SEO best practices].

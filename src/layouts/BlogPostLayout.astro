@@ -1,5 +1,5 @@
 ---
-import Header from '../components/Header.astro';
+import Navbar from '../components/Navbar.astro'; // This is our updated sticky header.
 import Footer from '../components/Footer.astro';
 import Sidebar from '../components/Sidebar.astro';
 import ContentLibrary from '../components/ContentLibrary.astro';
@@ -7,7 +7,6 @@ import '../styles/global.css';
 
 // Default frontmatter to an empty object if not provided.
 const { frontmatter = {} } = Astro.props;
-// Include meta tags by default, unless customMeta is explicitly false.
 const includeMeta = frontmatter.customMeta !== false;
 const pageTitle = frontmatter.title ? `${frontmatter.title} | Astro Blog` : "Astro Blog";
 const metaDescription = frontmatter.description || frontmatter.excerpt || "Default blog post description.";
@@ -21,15 +20,16 @@ const metaDescription = frontmatter.description || frontmatter.excerpt || "Defau
     {includeMeta ? <meta name="description" content={metaDescription} /> : null}
   </head>
   <body>
-    <Header heroImage={frontmatter.image ?? "/images/default.jpg"} />
+    {/* For blog posts, we do not pass a heroImage, so header shows only the navbar */}
+    <Navbar />
 
     <main class="container mx-auto my-8 flex flex-col md:flex-row items-start px-4 md:px-8">
-      <!-- Left Sidebar: Content Library -->
-      <div class="w-full md:w-1/5 p-4 md:p-6 md:sticky md:top-0">
+      {/* Left Sidebar: ContentLibrary (sticky with offset) */}
+      <div class="w-full md:w-1/5 p-4 md:p-6 md:sticky md:top-[70px]">
         <ContentLibrary />
       </div>
 
-      <!-- Main Blog Content -->
+      {/* Main Blog Content */}
       <div class="w-full md:w-3/5 p-4 md:p-6">
         <h1 class="text-3xl font-bold mb-4">{frontmatter.title ?? "Untitled Blog"}</h1>
         <p class="text-sm text-gray-500">
@@ -42,14 +42,14 @@ const metaDescription = frontmatter.description || frontmatter.excerpt || "Defau
           alt={frontmatter.title}
           class="w-full rounded-lg my-4"
         />
-        <!-- Markdown content container -->
+        {/* Markdown content container */}
         <div id="blog-content" class="prose prose-lg prose-blue max-w-none">
           <slot />
         </div>
       </div>
 
-      <!-- Right Sidebar: Sidebar -->
-      <div class="w-full md:w-1/5 md:sticky md:top-0">
+      {/* Right Sidebar: Sidebar (sticky with offset) */}
+      <div class="w-full md:w-1/5 md:sticky md:top-[70px]">
         <Sidebar />
       </div>
     </main>

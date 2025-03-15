@@ -1,0 +1,33 @@
+---
+import NavLinks from './NavLinks.astro';
+---
+<header class="sticky top-0 z-50">
+  <div class="bg-black bg-opacity-60 p-4 flex justify-between items-center">
+    <a href="/" class="text-2xl font-bold text-white">Astro Blog</a>
+    <NavLinks />
+    <button id="menu-button" class="md:hidden flex flex-col items-center justify-center w-10 h-10 space-y-1.5">
+      <span class="block w-8 h-1 bg-white"></span>
+      <span class="block w-8 h-1 bg-white"></span>
+      <span class="block w-8 h-1 bg-white"></span>
+    </button>
+  </div>
+  <nav id="menu-dropdown" class="absolute top-16 left-0 w-full bg-black bg-opacity-90 text-white flex flex-col p-4 md:hidden hidden">
+    <NavLinks isMobile={true} />
+  </nav>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const menuButton = document.getElementById("menu-button");
+      const menuDropdown = document.getElementById("menu-dropdown");
+      if (!menuButton || !menuDropdown) return;
+      menuButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        menuDropdown.classList.toggle("hidden");
+      });
+      document.addEventListener("click", function (event) {
+        if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
+          menuDropdown.classList.add("hidden");
+        }
+      });
+    });
+  </script>
+</header>
