@@ -27,21 +27,24 @@ Astro Blog is an **out-of-the-box (OOTB)**, easy-to-use, and lightweight bloggin
 
 ---
 
-## 🚀 How to Run the Blog Locally
+## 🚀 Getting Started
 
 Follow these steps to get started:
 
-1️⃣ **Clone the Repository:**
+**Clone Repository:**
 ```bash
-Close this project
-cd <project-name>
+Clone this project
 ```
 
-2️⃣ **Run the Blog with Docker Compose:**
+**Set up Mailchimp account:**
+
+**Set up .env file:**
+- Copy `.env-example` into `.env` in the root directory
+- Fill contents of `.env`
+
+**Run the Blog with Docker Compose:**
 ```bash
 docker-compose up --build
-
-** For mailing newsletter to work - you must have a mailchimp account and have your .env filled out with the API key and Audience ID.
 ```
 
 3️⃣ **Access the Blog:**
@@ -55,25 +58,39 @@ docker-compose up --build
 my-astro-blog/
 ├── public/               # Static assets (images, icons, etc.)
 │   └── images/
+|       └── category      # Category folder(s)
+|         └── article     # Article image(s)
 ├── src/
 │   ├── components/       # Reusable UI components (Header, Footer, Sidebar)
 │   ├── layouts/          # Page layouts (Main, Blog)
 │   ├── pages/            # Pages (index, category, blog posts)
+|       └── category      # Category folder(s)
+|         └── article     # Article(s) on parent category
 │   ├── styles/           # CSS files (global.css, home.css, etc.)
+├── .env                  # Environment Variables (Mailchimp)
 ├── Dockerfile            # Docker setup
 ├── docker-compose.yml    # Docker Compose configuration
 ├── package.json          # Project dependencies & scripts
 ├── tailwind.config.js    # Tailwind CSS configuration
 ├── astro.config.mjs      # Astro config
+├── robots.txt            # SEO - URLs to crawl, URLs to avoid
+├── sitemap.xml           # SEO - See below link. Fill out. Upload to Google
 └── README.md             # Project documentation
 ```
 
 ---
 
+## 🔧  Optimize SEO & Meta Tags**
+
+1) Fill out `sitemap` and submit to [Google](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
+2) Fill out `robots.txt` - by default you want to avoid category pages (`noindex`) - they're strictly for the user experience. Why [Robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro
+3) Ensure Home page has properly defined Meta information
+4) Ensure each article has properly defined Meta information
+5) Ensure images are compressed (less is more) or via CDN with proper alt tag. View image [SEO best practices].
+
 ## 🔧 Preparing for Production
 
 Right now, the blog is in **development mode**. To deploy it in production, follow these key steps:
-
 ### Update `docker-compose.yml`**
 Modify the `command` in `docker-compose.yml`:
 ```yaml
@@ -86,17 +103,3 @@ services:
       - NODE_ENV=production
     command: npm run build && npm run start
 ```
-### Optimize SEO & Meta Tags**
-Update **SEO metadata** in `src/pages/index.astro`:
-```html
-<head>
-  <title>My Awesome Blog 🚀</title>
-  <meta name="description" content="A fast, SEO-optimized blog about Tech, Cars & Fishing!">
-</head>
-```
-
-### Customize Content & Styles**
-- **Change colors & fonts** → `src/styles/global.css`
-- **Update hero images** → `public/images/`
-- **Modify layout structure** → `src/layouts/`
-- **Add new blog posts** → `src/pages/blog/*.md`

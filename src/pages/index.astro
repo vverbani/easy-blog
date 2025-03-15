@@ -19,13 +19,14 @@ function truncate(text, maxLength = 75) {
 <MainLayout>
   <!-- Intro Section -->
   <section class="intro my-8">
-    <h1 class="text-4xl font-bold mb-4">Welcome to Easy Blog</h1>
+    <h1 class="text-4xl font-bold mb-4">Welcome to Easy Blog - Example 1</h1>
     <p class="text-lg">
       Discover expert insights and in-depth articles on technology, cars, fishing, and more. Stay ahead of the curve with our carefully curated content and join our community of enthusiastic readers.
     </p>
   </section>
 
   <!-- Categories Section -->
+  <h2 class="text-3xl font-bold mb-4">Category Pages List - Example 2</h2>
   <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <!-- Tech & AI -->
     <a href="/tech-ai" class="block bg-gray-100 rounded-lg p-6 hover:shadow-lg">
@@ -48,7 +49,7 @@ function truncate(text, maxLength = 75) {
 
   <!-- Recent Articles Section -->
   <section class="recent-articles my-8">
-    <h2 class="text-3xl font-bold mb-4">Latest Articles</h2>
+    <h2 class="text-3xl font-bold mb-4">Latest Articles - Example 3</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {recentBlogs.map((blog) => (
         <a
