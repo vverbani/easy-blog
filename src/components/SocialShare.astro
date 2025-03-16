@@ -1,0 +1,64 @@
+---
+const { title, category, slug } = Astro.props;
+
+// Simple slugify function.
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')         // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')     // Remove all non-word characters
+    .replace(/\-\-+/g, '-');      // Replace multiple dashes with a single dash
+}
+
+// Get domain name from env.
+const domainName = import.meta.env.DOMAIN_NAME || 'example.com';
+
+// Use the provided `slug` prop if available; fallback to title.
+const articleSlug = slug ? slugify(slug) : slugify(title);
+const categorySlug = slugify(category);
+
+// Construct the share URL.
+const shareUrl = `https://${domainName}/${categorySlug}/${articleSlug}`;
+
+// Encode for query string.
+const encodedTitle = encodeURIComponent(title || "Astro Blog Article");
+const encodedShareUrl = encodeURIComponent(shareUrl);
+
+// Build share URLs for each platform.
+const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedShareUrl}`;
+const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedShareUrl}`;
+const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedShareUrl}`;
+const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedShareUrl}`;
+---
+<div class="social-share flex flex-wrap gap-4 my-4 bg-gray-100 p-4">
+  <a href={twitterUrl} target="_blank" rel="noopener noreferrer" class="flex items-center hover:underline">
+    <!-- Twitter Icon (Official Blue) -->
+    <svg class="w-8 h-8 mr-2" fill="#1DA1F2" viewBox="0 0 24 24">
+      <path d="M22.46 6c-.77.35-1.6.59-2.46.69a4.28 4.28 0 001.88-2.36 8.57 8.57 0 01-2.72 1.04 4.27 4.27 0 00-7.29 3.9A12.11 12.11 0 013 4.79a4.26 4.26 0 001.32 5.7 4.21 4.21 0 01-1.93-.53v.05a4.27 4.27 0 003.42 4.18 4.3 4.3 0 01-1.92.07 4.27 4.27 0 003.98 2.96A8.55 8.55 0 012 19.54 12.07 12.07 0 008.29 21c7.55 0 11.68-6.26 11.68-11.68 0-.18 0-.35-.01-.53A8.36 8.36 0 0022.46 6z"/>
+    </svg>
+    <span class="text-xl">Twitter</span>
+  </a>
+  <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" class="flex items-center hover:underline">
+    <!-- LinkedIn Icon (Official Blue) -->
+    <svg class="w-8 h-8 mr-2" fill="#0077B5" viewBox="0 0 24 24">
+      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.762 2.239 5 5 5h14c2.762 0 5-2.238 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-9h3v9zm-1.5-10.268c-.966 0-1.75-.788-1.75-1.757 0-.97.784-1.758 1.75-1.758s1.75.788 1.75 1.758c0 .969-.784 1.757-1.75 1.757zm13.5 10.268h-3v-4.569c0-1.091-.021-2.5-1.521-2.5-1.521 0-1.754 1.188-1.754 2.418v4.651h-3v-9h2.881v1.233h.041c.401-.756 1.379-1.551 2.84-1.551 3.036 0 3.599 1.996 3.599 4.59v4.728z"/>
+    </svg>
+    <span class="text-xl">LinkedIn</span>
+  </a>
+  <a href={facebookUrl} target="_blank" rel="noopener noreferrer" class="flex items-center hover:underline">
+    <!-- Facebook Icon (Official Blue) -->
+    <svg class="w-8 h-8 mr-2" fill="#1877F2" viewBox="0 0 24 24">
+      <path d="M12 2.04C6.48 2.04 2 6.52 2 12.04C2 17.06 5.66 21.17 10.44 21.93V14.89H7.9V12.04H10.44V9.8C10.44 7.3 11.93 5.94 14.21 5.94C15.31 5.94 16.46 6.13 16.46 6.13V8.6H15.27C14.09 8.6 13.56 9.38 13.56 10.19V12.04H16.33L15.88 14.89H13.56V21.93C18.34 21.17 22 17.06 22 12.04C22 6.52 17.52 2.04 12 2.04Z"/>
+    </svg>
+    <span class="text-xl">Facebook</span>
+  </a>
+  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="flex items-center hover:underline">
+    <!-- WhatsApp Icon (Official Green) -->
+    <svg class="w-8 h-8 mr-2" fill="#25D366" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.757-.867-2.03-.967-.273-.099-.472-.148-.67.15-.197.297-.768.967-.942 1.165-.173.197-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.149-.174.198-.297.298-.495.099-.198.05-.371-.025-.52-.075-.149-.67-1.612-.918-2.206-.242-.58-.487-.501-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.371-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.077 4.487.709.306 1.262.488 1.694.625.712.227 1.36.195 1.87.118.571-.085 1.757-.718 2.006-1.413.248-.695.248-1.289.173-1.413-.074-.124-.27-.198-.566-.347zM12.004 2C6.486 2 2 6.486 2 12.004c0 2.114.553 4.094 1.516 5.82L2 22l4.284-1.488C7.93 21.447 9.92 22 12.004 22c5.518 0 10.004-4.486 10.004-9.996C22.008 6.486 17.522 2 12.004 2z"/>
+    </svg>
+    <span class="text-xl">WhatsApp</span>
+  </a>
+</div>

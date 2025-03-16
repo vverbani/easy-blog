@@ -1,35 +1,36 @@
 ---
-import Navbar from '../components/Navbar.astro'; // This is our updated sticky header.
+import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Sidebar from '../components/Sidebar.astro';
 import ContentLibrary from '../components/ContentLibrary.astro';
+import SocialShare from '../components/SocialShare.astro';
 import '../styles/global.css';
 
-// Default frontmatter to an empty object if not provided.
 const { frontmatter = {} } = Astro.props;
-const includeMeta = frontmatter.customMeta !== false;
-const pageTitle = frontmatter.title ? `${frontmatter.title} | Astro Blog` : "Astro Blog";
-const metaDescription = frontmatter.description || frontmatter.excerpt || "Default blog post description.";
+
+const categorySlug = Astro.request
+  ? new URL(Astro.request.url).pathname.split('/')[1] || ''
+  : '';
+
+const articleSlug = Astro.request
+  ? new URL(Astro.request.url).pathname.split('/').pop() || ''
+  : '';
 ---
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/images/favicon.png" />
-    {includeMeta ? <title>{pageTitle}</title> : null}
-    {includeMeta ? <meta name="description" content={metaDescription} /> : null}
+    <title>{frontmatter.title ? `${frontmatter.title} | Astro Blog` : "Astro Blog"}</title>
+    <meta name="description" content={frontmatter.description || frontmatter.excerpt || "Default blog post description."} />
   </head>
   <body>
-    {/* For blog posts, we do not pass a heroImage, so header shows only the navbar */}
     <Navbar />
 
     <main class="container mx-auto my-8 flex flex-col md:flex-row items-start px-4 md:px-8">
-      {/* Left Sidebar: ContentLibrary (sticky with offset) */}
       <div class="w-full md:w-1/5 p-4 md:p-6 md:sticky md:top-[70px]">
         <ContentLibrary />
       </div>
-
-      {/* Main Blog Content */}
       <div class="w-full md:w-3/5 p-4 md:p-6">
         <h1 class="text-3xl font-bold mb-4">{frontmatter.title ?? "Untitled Blog"}</h1>
         <p class="text-sm text-gray-500">
@@ -37,18 +38,18 @@ const metaDescription = frontmatter.description || frontmatter.excerpt || "Defau
             ? `Updated: ${frontmatter.updated}`
             : `Created: ${frontmatter.date ?? "Unknown Date"}`}
         </p>
-        <img
-          src={frontmatter.image ?? "/images/default.jpg"}
-          alt={frontmatter.title}
-          class="w-full rounded-lg my-4"
-        />
-        {/* Markdown content container */}
+        <img src={frontmatter.image ?? "/images/default.jpg"} alt={frontmatter.title} class="w-full rounded-lg my-4" />
+
+        <!-- Social Share Icons after the title -->
+        <SocialShare title={frontmatter.title} category={categorySlug} slug={articleSlug} />
+
         <div id="blog-content" class="prose prose-lg prose-blue max-w-none">
           <slot />
         </div>
-      </div>
 
-      {/* Right Sidebar: Sidebar (sticky with offset) */}
+        <!-- Social Share Icons at the end -->
+        <SocialShare title={frontmatter.title} category={categorySlug} slug={articleSlug} />
+      </div>
       <div class="w-full md:w-1/5 md:sticky md:top-[70px]">
         <Sidebar />
       </div>
